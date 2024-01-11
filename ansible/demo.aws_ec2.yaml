@@ -1,0 +1,8 @@
+plugin: amazon.aws.aws_ec2
+regions:
+  - eu-west-2
+
+filters:
+  # This selects only running instances with tag `GithubAccess` tag set to `true`.
+  tag:GithubAccess: true
+  instance-state-name : running

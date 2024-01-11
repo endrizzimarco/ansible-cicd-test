@@ -1,0 +1,35 @@
+name: Ansible test
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: AWS Credentials - Assume SharedServices GitHub Assumable Role
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ secrets.GH_ASSUMABLE_AWS_ROLE }}
+          role-session-name: sdlc
+
+      - name: Setup python 3.10
+        uses: actions/setup-python@v5 
+        with:
+          python-version: '3.10'
+
+      - name: Install Ansible
+        run: pipx install ansible-core
+
+      - name: Run Ansible playbook
+        run: |
+          ansible --version
+          ansible-galaxy collection list
+          ansible-inventory -i demo.aws_ec2.yaml --graph
+        working-directory: ./ansible
