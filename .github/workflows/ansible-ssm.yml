@@ -26,7 +26,11 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.ENVIRONMENT }}
+    strategy: 
+      matrix:
+        environment: ${{ fromJson(vars.ENVIRONMENTS) }}
+    concurrency: ${{ matrix.environment }}
+    environment: ${{ matrix.environment }}
 
     steps:
       - name: Checkout code

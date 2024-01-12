@@ -12,12 +12,6 @@ permissions:
 jobs:
   ansible-ssm:
     uses: endrizzimarco/ansible-cicd-test/.github/workflows/ansible-ssm.yml@master
-    strategy: 
-      matrix:
-        environment: ${{ fromJson(vars.ENVIRONMENTS) }}
-    concurrency: ${{ matrix.environment }}
-    with:
-      ENVIRONMENT: ${{ matrix.environment }}
     secrets: 
       GH_ASSUMABLE_AWS_ROLE: ${{ secrets.AWS_ACCESS_KEY_ID }}
       TARGET_ACCOUNT_AWS_ROLE: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
