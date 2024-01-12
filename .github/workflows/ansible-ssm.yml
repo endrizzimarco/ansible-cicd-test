@@ -28,11 +28,8 @@ jobs:
         run: |
           source /opt/pipx/venvs/ansible-core/bin/activate
           python -m pip install boto3
-          ansible-galaxy collection install community.aws
 
       - name: Run Ansible playbook
         run: |
-          ansible --version
-          ansible-galaxy collection list
-          ansible-inventory -i demo.aws_ec2.yaml --graph
+          ansible-playbook linux.yaml -i demo.aws_ec2.yml
         working-directory: ./ansible

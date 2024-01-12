@@ -1,0 +1,8 @@
+- name: Wait for connection to be available
+  vars:
+    ansible_connection: aws_ssm
+    ansible_aws_ssm_bucket_name: ansible-bucka
+    ansible_aws_ssm_region: us-west-2
+  tasks:
+    - name: Wait for connection
+      wait_for_connection:
