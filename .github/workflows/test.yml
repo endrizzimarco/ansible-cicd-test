@@ -1,0 +1,17 @@
+name: Ansible test
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  id-token: write
+  contents: read
+  actions: read
+
+jobs:
+  ansible-ssm:
+    uses: ./ansible-ssm.yml
+    secrets: 
+      GH_ASSUMABLE_AWS_ROLE: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      TARGET_ACCOUNT_AWS_ROLE: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

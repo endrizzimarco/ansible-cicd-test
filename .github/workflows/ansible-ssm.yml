@@ -1,8 +1,17 @@
-name: Ansible test
+name: Runs an Ansible SSM Playbook
 on:
-  push:
-    branches:
-      - master
+  workflow_call:
+    secrets: 
+      GH_ASSUMABLE_AWS_ROLE:
+        description: 'The ARN of the SSM GitHub Assumable AWS Role within SharedServices'
+        required: true
+      TARGET_ACCOUNT_AWS_ROLE:
+        description: 'The ARN of the `config` role to be assumed in the target account'
+        required: true
+
+env: 
+  AWS_REGION: ${{ vars.AWS_REGION }}
+  BUCKET_NAME: ${{ vars.BUCKET_NAME }}
 
 permissions:
   id-token: write
@@ -12,17 +21,17 @@ permissions:
 jobs:
   ansible-ssm:
     runs-on: ubuntu-latest
-    environment: test
+    environment: test # TODO: 
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: AWS Credentials - Assume SharedServices GitHub Assumable Role
+      - name: AWS Credentials - Assume SDLC Role
         uses: aws-actions/configure-aws-credentials@v3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.GH_ASSUMABLE_AWS_ROLE }}
+          aws-secret-access-key: ${{ secrets.TARGET_ACCOUNT_AWS_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Set up Python 3.10
@@ -31,11 +40,11 @@ jobs:
           python-version: '3.10'
 
       - name: Install additional dependencies for Ansible
-        run: python -m pip install boto3
+        run: |
+          source /opt/pipx/venvs/ansible-core/bin/activate
+          python -m pip install boto3
 
       - name: Run Ansible playbook
         run: |
           ansible-playbook main.yml -i aws_ec2.yml --extra-vars "bucket_name=$BUCKET_NAME" -vvv
         working-directory: ./ansible
-        env: 
-          BUCKET_NAME: ${{ vars.BUCKET_NAME }}
