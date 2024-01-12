@@ -21,7 +21,9 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: test # TODO: 
+    strategy: 
+      matrix:
+        environment: ${{ vars.ENVIRONMENTS }}
 
     steps:
       - name: Checkout code
