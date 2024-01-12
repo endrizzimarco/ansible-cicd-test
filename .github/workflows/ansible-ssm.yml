@@ -4,9 +4,15 @@ on:
     branches:
       - master
 
+permissions:
+  id-token: write
+  contents: read
+  actions: read
+
 jobs:
   ansible-ssm:
     runs-on: ubuntu-latest
+    environment: test
 
     steps:
       - name: Checkout code
@@ -31,5 +37,5 @@ jobs:
 
       - name: Run Ansible playbook
         run: |
-          ansible-playbook linux.yaml -i demo.aws_ec2.yaml -vvv
+          ansible-playbook linux.yml -i aws_ec2.yml --extra-vars "bucket_name=$BUCKET_NAME" -vvv
         working-directory: ./ansible

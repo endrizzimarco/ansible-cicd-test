@@ -1,0 +1,21 @@
+---
+- name: Ansible Test Playbook
+  hosts: all
+  become: true
+  gather_facts: false
+  vars:
+    ansible_connection: aws_ssm
+    ansible_aws_ssm_bucket_name: '{{ bucket_name }}'
+    ansible_aws_ssm_region: eu-west-2
+    ansible_aws_ssm_bucket_sse_mode: aws:kms
+  tasks:
+    - name: Wait for connection
+      ansible.builtin.wait_for_connection:
+
+    - name: Copy files to EC2 instance
+      ansible.builtin.copy:
+        src: ../configs/
+        dest: /app/config
+        owner: root
+        group: root
+        mode: '0644'
