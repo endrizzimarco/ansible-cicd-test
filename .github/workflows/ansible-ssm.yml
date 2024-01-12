@@ -24,6 +24,7 @@ jobs:
     strategy: 
       matrix:
         environment: ${{ fromJson(vars.ENVIRONMENTS) }}
+    environment: ${{ matrix.environment }}
 
     steps:
       - name: Checkout code
