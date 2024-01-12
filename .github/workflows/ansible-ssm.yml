@@ -8,11 +8,6 @@ on:
       TARGET_ACCOUNT_AWS_ROLE:
         description: 'The ARN of the `config` role to be assumed in the target account'
         required: true
-    inputs:
-      ENVIRONMENT: 
-        description: 'The GH environment to deploy to'
-        required: true
-        type: string
 
 env: 
   AWS_REGION: ${{ vars.AWS_REGION }}
