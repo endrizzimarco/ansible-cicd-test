@@ -32,7 +32,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.GH_ASSUMABLE_AWS_ROLE }}
           aws-secret-access-key: ${{ secrets.TARGET_ACCOUNT_AWS_ROLE }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Set up Python 3.10
         uses: actions/setup-python@v5
