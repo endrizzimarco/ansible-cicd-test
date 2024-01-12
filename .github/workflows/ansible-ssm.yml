@@ -19,7 +19,7 @@ permissions:
   actions: read
 
 jobs:
-  ansible-ssm:
+  deploy:
     runs-on: ubuntu-latest
     environment: test # TODO: 
 
