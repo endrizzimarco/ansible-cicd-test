@@ -39,3 +39,5 @@ jobs:
         run: |
           ansible-playbook main.yml -i aws_ec2.yml --extra-vars "bucket_name=$BUCKET_NAME" -vvv
         working-directory: ./ansible
+        env: 
+          BUCKET_NAME: ${{ vars.BUCKET_NAME }}
