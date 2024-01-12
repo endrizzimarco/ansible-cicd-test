@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   ansible-ssm:
-    uses: ./ansible-ssm.yml@latest
+    uses: endrizzimarco/ansible-cicd-test/.github/workflows/ansible-ssm.yml@latest
     secrets: 
       GH_ASSUMABLE_AWS_ROLE: ${{ secrets.AWS_ACCESS_KEY_ID }}
       TARGET_ACCOUNT_AWS_ROLE: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
