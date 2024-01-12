@@ -31,5 +31,5 @@ jobs:
 
       - name: Run Ansible playbook
         run: |
-          ansible-playbook linux.yaml -i demo.aws_ec2.yaml
+          ansible-playbook linux.yaml -i demo.aws_ec2.yaml -vvv
         working-directory: ./ansible
