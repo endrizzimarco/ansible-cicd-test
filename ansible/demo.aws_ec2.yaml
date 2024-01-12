@@ -1,7 +1,8 @@
-plugin: amazon.aws.aws_ec2
+plugin: aws_ec2
 regions:
   - eu-west-2
-
+hostnames:
+  - instance-id
 filters:
   # Selects only running instances with tag `GithubAccess` tag set to `true`.
   tag:GithubAccess: true
