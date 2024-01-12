@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy: 
       matrix:
-        environment: ${{ vars.ENVIRONMENTS }}
+        environment: ${{ fromJson(vars.ENVIRONMENTS) }}
 
     steps:
       - name: Checkout code
