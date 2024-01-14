@@ -13,7 +13,7 @@ jobs:
   ansible-ssm:
     uses: endrizzimarco/ansible-cicd-test/.github/workflows/ansible-ssm.yml@master
     with: 
-      PLAYBOOK_NAME: main.yml
+      PLAYBOOK_FILE: main.yml
     secrets: 
       GH_ASSUMABLE_AWS_ROLE: ${{ secrets.AWS_ACCESS_KEY_ID }}
       TARGET_ACCOUNT_AWS_ROLE: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
