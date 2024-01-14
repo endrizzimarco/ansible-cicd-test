@@ -21,10 +21,10 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: ${{ matrix.environment }}
     strategy: 
       matrix:
         environment: ${{ fromJson(vars.ENVIRONMENTS) }}
-    environment: ${{ matrix.environment }}
 
     steps:
       - name: Checkout code
