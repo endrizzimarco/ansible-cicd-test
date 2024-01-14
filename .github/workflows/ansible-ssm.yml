@@ -1,6 +1,12 @@
 name: Runs an Ansible SSM Playbook
 on:
   workflow_call:
+    inputs: 
+      PLAYBOOK_FILE:
+        description: 'The name of the playbook file to run'
+        required: true
+        type: string
+        default: 'main.yml'
     secrets: 
       GH_ASSUMABLE_AWS_ROLE:
         description: 'The ARN of the SSM GitHub Assumable AWS Role within SharedServices'
@@ -49,5 +55,5 @@ jobs:
 
       - name: Run Ansible playbook
         run: |
-          ansible-playbook main.yml -i aws_ec2.yml --extra-vars "bucket_name=$BUCKET_NAME" -vvv
+          ansible-playbook ${{ inputs.PLAYBOOK_FILE }} -i aws_ec2.yml --extra-vars "bucket_name=$BUCKET_NAME" -vvv
         working-directory: ./ansible
