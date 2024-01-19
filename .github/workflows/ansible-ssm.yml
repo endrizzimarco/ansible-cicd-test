@@ -51,6 +51,7 @@ jobs:
 
       - name: Install additional dependencies for Ansible
         run: |
+          ansible-galaxy collection install 'community.aws >= 7.1.0'
           source /opt/pipx/venvs/ansible-core/bin/activate
           python -m pip install boto3
 
