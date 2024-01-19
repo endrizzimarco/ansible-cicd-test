@@ -14,6 +14,7 @@ on:
       TARGET_ACCOUNT_AWS_ROLE:
         description: 'The ARN of the `config` role to be assumed in the target account'
         required: true
+  workflow_dispatch:
 
 env: 
   AWS_REGION: ${{ vars.AWS_REGION }}
@@ -55,5 +56,5 @@ jobs:
 
       - name: Run Ansible playbook
         run: |
-          ansible-playbook ${{ inputs.PLAYBOOK_FILE }} -i aws_ec2.yml --extra-vars "bucket_name=$BUCKET_NAME" -vvv
+          ansible-playbook main.yml -i aws_ec2.yml --extra-vars "bucket_name=$BUCKET_NAME" -vvv
         working-directory: ./ansible
