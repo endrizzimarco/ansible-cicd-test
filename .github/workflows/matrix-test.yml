@@ -24,12 +24,12 @@ jobs:
   job-loader:
     environment: ${{ needs.setup-env.outputs.ENVIRONMENT }}
     needs: setup-env
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     aut_environment: ${{ fromJson(needs.setup-env.outputs.AUT_ENVIRONMENTS)}}
+    strategy:
+      fail-fast: false
+      matrix:
+        aut_environment: ${{ fromJson(needs.setup-env.outputs.AUT_ENVIRONMENTS)}}
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out variables
-        run: echo "${{ needs.setup-env.outputs.ENVIRONMENT }} ${{ needs.setup-env.outputs.AUT_ENVIRONMENTS}}"
+        run: echo "${{ needs.setup-env.outputs.ENVIRONMENT }} ${{ matrix.aut_environment }}"
