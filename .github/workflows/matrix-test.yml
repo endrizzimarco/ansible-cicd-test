@@ -22,10 +22,10 @@ jobs:
 
   job-loader:
     needs: setup-env
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     aut_environment: ${{fromJson(vars.AUT_ENVIRONMENTS)}}
+    strategy:
+      fail-fast: false
+      matrix:
+        aut_environment: ${{fromJson(vars.AUT_ENVIRONMENTS)}}
     runs-on: ubuntu-latest
     environment: ${{ needs.setup-env.outputs.ENVIRONMENT }}
 
