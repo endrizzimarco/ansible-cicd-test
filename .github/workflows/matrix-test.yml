@@ -1,0 +1,32 @@
+name: Runs the job loader script
+on: # yamllint disable-line rule:truthy
+  push:
+    branches:
+      - master
+
+jobs:
+  setup-env:
+    strategy:
+      fail-fast: false
+      matrix:
+        environment: ${{ fromJson(vars.ENVIRONMENTS) }}
+
+    runs-on: ubuntu-latest
+    environment: ${{ matrix.environment }}
+
+    steps:
+      - name: Output environment
+        run: echo "ENVIRONMENT=${{ matrix.environment }}" >> $GITHUB_ENV
+
+  job-loader:
+    needs: setup-env
+    strategy:
+      fail-fast: false
+      matrix:
+        aut_environment: ${{fromJson(vars.AUT_ENVIRONMENTS)}}
+    runs-on: ubuntu-latest
+    environment: ${{ needs.setup-env.outputs.ENVIRONMENT }}
+
+    steps:
+      - name: Check out variables
+        run: echo "${{ matrix.aut_environment }} - ${{needs.setup-env.outputs.ENVIRONMENT }}"
