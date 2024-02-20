@@ -21,13 +21,13 @@ jobs:
         run: echo "hello world"
 
   job-loader:
+    environment: ${{ needs.setup-env.outputs.ENVIRONMENT }}
     needs: setup-env
     strategy:
       fail-fast: false
       matrix:
         aut_environment: ${{fromJson(vars.AUT_ENVIRONMENTS)}}
     runs-on: ubuntu-latest
-    environment: ${{ needs.setup-env.outputs.ENVIRONMENT }}
 
     steps:
       - name: Check out variables
