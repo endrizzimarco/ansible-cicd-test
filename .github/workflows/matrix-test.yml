@@ -18,18 +18,19 @@ jobs:
       AUT_ENVIRONMENTS: ${{ vars.AUT_ENVIRONMENTS }}
 
     steps:
-      - name: Output environment
-        run: echo "hello world"
+      - name: A useless but needed step
+        run: echo "${{ vars.AUT_ENVIRONMENTS }}"
 
   job-loader:
-    environment: ${{ needs.setup-env.outputs.ENVIRONMENT }}
     needs: setup-env
+    runs-on: ubuntu-latest
+    environment: ${{ needs.setup-env.outputs.ENVIRONMENT }}
+
     strategy:
       fail-fast: false
       matrix:
         aut_environment: ${{ fromJson(needs.setup-env.outputs.AUT_ENVIRONMENTS)}}
-    runs-on: ubuntu-latest
 
     steps:
-      - name: Check out variables
-        run: echo "${{ needs.setup-env.outputs.ENVIRONMENT }} ${{ matrix.aut_environment }}"
+      - name: Echo variables
+        run: echo "${{ needs.setup-env.outputs.ENVIRONMENT }} - ${{ matrix.aut_environment }}"
