@@ -31,4 +31,4 @@ jobs:
 
     steps:
       - name: Check out variables
-        run: echo "${{ vars }}"
+        run: echo "${{ toJson(vars) }}"
