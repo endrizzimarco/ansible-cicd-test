@@ -15,6 +15,7 @@ jobs:
     environment: ${{ matrix.environment }}
     outputs:
       ENVIRONMENT: ${{ matrix.environment }}
+      AUT_ENVIRONMENTS: ${{ fromJSON(vars.AUT_ENVIRONMENTS) }}
 
     steps:
       - name: Output environment
@@ -26,9 +27,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        aut_environment: ${{fromJson(vars.AUT_ENVIRONMENTS)}}
+        aut_environment: ${{ fromJson(needs.setup-env.outputs.AUT_ENVIRONMENTS)}}
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out variables
-        run: echo "${{ vars.AUT_ENVIRONMENTS }}"
+        run: echo "${{ needs.setup-env.outputs.ENVIRONMENT }} ${{ matrix.aut_environment}}"
