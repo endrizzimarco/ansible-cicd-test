@@ -31,4 +31,4 @@ jobs:
 
     steps:
       - name: Check out variables
-        run: echo "${{ toJson(vars) }}"
+        run: echo "${{ vars.AUT_ENVIRONMENTS }}"
