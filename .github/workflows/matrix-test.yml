@@ -16,6 +16,10 @@ jobs:
     outputs:
       ENVIRONMENT: ${{ matrix.environment }}
 
+    steps:
+      - name: Output environment
+        run: echo "hello world"
+
   job-loader:
     needs: setup-env
     # strategy:
