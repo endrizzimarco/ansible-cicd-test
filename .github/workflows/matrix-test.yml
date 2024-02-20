@@ -16,10 +16,6 @@ jobs:
     outputs:
       ENVIRONMENT: ${{ matrix.environment }}
 
-    steps:
-      - name: Output environment
-        run: echo "ENVIRONMENT=${{ matrix.environment }}" >> $env:GITHUB_OUTPUT
-
   job-loader:
     needs: setup-env
     # strategy:
