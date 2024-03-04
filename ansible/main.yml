@@ -5,17 +5,38 @@
   gather_facts: false
   vars:
     ansible_connection: aws_ssm
-    ansible_aws_ssm_bucket_name: '{{ bucket_name }}'
+    ansible_aws_ssm_bucket_name: "{{ bucket_name }}"
     ansible_aws_ssm_region: eu-west-2
-    ansible_aws_ssm_bucket_sse_mode: aws:kms
   tasks:
     - name: Wait for connection
       ansible.builtin.wait_for_connection:
 
     - name: Copy files to EC2 instance
       ansible.builtin.copy:
-        src: ../configs/
-        dest: /app/config
-        owner: root
-        group: root
-        mode: '0644'
+        src: ../configs/{{ env }}/
+        dest: /app/config/
+        owner: "65532"
+        mode: "0644"
+
+    - name: Get GitHub workspace directory
+      ansible.builtin.set_fact:
+        github_workspace: "{{ lookup('env', 'GITHUB_WORKSPACE') }}"
+
+    - name: Get list of files in source folder
+      ansible.builtin.command: cd {{ github_workspace }}/configs/{{ env }}/ && find . -type f
+      register: source_files
+      changed_when: false
+      vars:
+        ansible_connection: local # Run this task locally on the control node
+
+    - name: Get list of files in destination folder
+      ansible.builtin.command: cd /app/config/ && find . -type f
+      register: dest_files
+      changed_when: false
+
+    - name: Delete extra files in destination folder
+      ansible.builtin.file:
+        path: /app/config/{{ item }}
+        state: absent
+      with_items: "{{ dest_files.stdout_lines }}"
+      when: item not in source_files.stdout_lines

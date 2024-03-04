@@ -1,0 +1,22 @@
+name: Job loader
+
+on:
+  workflow_run:
+    workflows: ["Matrix test"]
+    types:
+      - completed
+
+jobs:
+  job-loader:
+    needs: setup-env
+    runs-on: ubuntu-latest
+    environment: ${{ needs.setup-env.outputs.ENVIRONMENT }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        aut_environment: ${{ fromJson(needs.setup-env.outputs.AUT_ENVIRONMENTS)}}
+
+    steps:
+      - name: Echo variables
+        run: echo "${{ needs.setup-env.outputs.ENVIRONMENT }} - ${{ matrix.aut_environment }}"
