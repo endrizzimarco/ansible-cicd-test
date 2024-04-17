@@ -17,7 +17,7 @@ jobs:
             path: |
               /usr/local/lib/node_modules/amplify
               /usr/local/lib/node_modules/expo
-            key: ${{ runner.os }}-amplify-${{ hashFiles('/usr/local/lib/node_modules/amplify', '/usr/local/lib/node_modules/expo') }}
+            key: ${{ runner.os }}-amplify-${{ hashFiles('/usr/local/lib/node_modules/amplify/**', '/usr/local/lib/node_modules/expo/**') }}
             restore-keys: |
                 ${{ runner.os }}-amplify-
                 ${{ runner.os }}-
