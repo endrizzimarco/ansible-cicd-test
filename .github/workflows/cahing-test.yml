@@ -14,10 +14,8 @@ jobs:
         uses: actions/cache@v3
         id: amplify-cache
         with:
-            path: |
-                /usr/local/bin/amplify
-                /usr/local/bin/expo-cli
-            key: ${{ runner.os }}-amplify-${{ hashFiles('/usr/local/bin/amplify', '/usr/local/bin/expo-cli' ) }}
+            path: /usr/local/bin
+            key: ${{ runner.os }}-amplify-${{ hashFiles('/usr/local/lib/node_modules/*') }}
             restore-keys: |
                 ${{ runner.os }}-amplify-
                 ${{ runner.os }}-
@@ -30,5 +28,4 @@ jobs:
 
       - name: test
         run: |
-            cat /usr/local/bin/expo-cli
-            cat /usr/local/bin/amplify
+            expo --help
