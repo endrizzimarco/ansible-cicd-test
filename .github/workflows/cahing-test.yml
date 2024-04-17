@@ -26,10 +26,11 @@ jobs:
         if: steps.amplify-cache.outputs.cache-hit != 'true'
         run: |
             echo "CACHE MISS"
-            npm install -g expo-cli @aws-amplify/cli 
+            npm install -g expo-cli @aws-amplify/cli
 
       - name: test
         run: |
+            amplify --help
             which amplify
             which expo
             cat /usr/local/bin/amplify
