@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - master
-  
+
 jobs:
   reusable_workflow_job:
     runs-on: ubuntu-latest
@@ -15,9 +15,9 @@ jobs:
         id: amplify-cache
         with:
             path: |
-              /usr/local/lib/node_modules/amplify
-              /usr/local/lib/node_modules/expo
-            key: ${{ runner.os }}-amplify-${{ hashFiles('/usr/local/lib/node_modules/amplify/**', '/usr/local/lib/node_modules/expo/**') }}
+              /usr/local/lib/node_modules/@aws-amplify
+              /usr/local/lib/node_modules/expo-cli
+            key: ${{ runner.os }}-amplify-${{ hashFiles('/usr/local/lib/node_modules/@aws-amplify/**', '/usr/local/lib/node_modules/expo-cli/**') }}
             restore-keys: |
                 ${{ runner.os }}-amplify-
                 ${{ runner.os }}-
