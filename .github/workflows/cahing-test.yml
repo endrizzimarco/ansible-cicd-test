@@ -14,7 +14,7 @@ jobs:
         uses: actions/cache@v3
         id: amplify-cache
         with:
-            path: /usr/local/bin
+            path: /usr/local/lib/node_modules/*
             key: ${{ runner.os }}-amplify-${{ hashFiles('/usr/local/lib/node_modules/*') }}
             restore-keys: |
                 ${{ runner.os }}-amplify-
