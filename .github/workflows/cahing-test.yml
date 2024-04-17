@@ -30,8 +30,5 @@ jobs:
 
       - name: test
         run: |
-            amplify --help
-            which amplify
-            which expo
-            cat /usr/local/bin/amplify
             cat /usr/local/bin/expo-cli
+            cat /usr/local/bin/amplify
