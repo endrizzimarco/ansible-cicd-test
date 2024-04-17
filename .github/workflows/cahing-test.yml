@@ -3,7 +3,10 @@ description: Install Amplify CLI + Expo, set AWS credentials and pull Amplify en
 
 on:
   workflow_call:
-
+  push:
+    branches:
+      - master
+  
 jobs:
   reusable_workflow_job:
     runs-on: ubuntu-latest
