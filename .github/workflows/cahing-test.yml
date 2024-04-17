@@ -17,23 +17,15 @@ jobs:
             path: |
               /usr/local/lib/node_modules/@aws-amplify
               /usr/local/lib/node_modules/expo-cli
-            key: ${{ runner.os }}-amplify-${{ hashFiles('/usr/local/lib/node_modules/@aws-amplify/**', '/usr/local/lib/node_modules/expo-cli/**') }}
-            restore-keys: |
-                ${{ runner.os }}-amplify-
-                ${{ runner.os }}-
+              /usr/local/bin/amplify
+              /user/local/bin/expo
+            key: ${{ runner.os }}-amplify
 
       - name: Installing dependencies
         if: steps.amplify-cache.outputs.cache-hit != 'true'
         run: |
             echo "CACHE MISS"
             npm install -g expo-cli @aws-amplify/cli
-
-
-      - name: aa
-        run: ls /usr/local/lib
-      
-      - name: bb
-        run: ls /usr/local/lib/node_modules
 
       - name: test
         run: |
