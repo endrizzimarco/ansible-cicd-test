@@ -18,7 +18,7 @@ jobs:
               /usr/local/lib/node_modules/@aws-amplify
               /usr/local/lib/node_modules/expo-cli
               /usr/local/bin/amplify
-              /user/local/bin/expo
+              /usr/local/bin/expo
             key: ${{ runner.os }}-amplify
 
       - name: Installing dependencies
