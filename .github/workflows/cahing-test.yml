@@ -10,7 +10,7 @@ jobs:
   reusable_workflow_job:
     runs-on: ubuntu-latest
     steps:
-      - name: CACHE ACTION
+      - name: Checked if dependencies are cached
         uses: actions/cache@v3
         id: amplify-cache
         with:
@@ -21,7 +21,7 @@ jobs:
               /usr/local/bin/expo
             key: ${{ runner.os }}-amplify
 
-      - name: Installing dependencies
+      - name: Installing dependencies (cache miss)
         if: steps.amplify-cache.outputs.cache-hit != 'true'
         run: |
             echo "CACHE MISS"
@@ -30,3 +30,7 @@ jobs:
       - name: test
         run: |
             expo --help
+
+      - name: test
+        run: |
+            amplify --help
