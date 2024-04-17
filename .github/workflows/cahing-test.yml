@@ -15,8 +15,8 @@ jobs:
         id: amplify-cache
         with:
             path: |
-                ${{ steps.yarn-cache-dir-path.outputs.dir }}
-                **/node_modules
+                /usr/local/bin/amplify
+                /usr/local/bin/expo-cli
             key: ${{ runner.os }}-amplify-${{ hashFiles('/usr/local/bin/amplify', '/usr/local/bin/expo-cli' ) }}$
             restore-keys: |
                 ${{ runner.os }}-amplify-
