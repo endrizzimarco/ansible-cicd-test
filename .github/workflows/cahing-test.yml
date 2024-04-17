@@ -14,7 +14,9 @@ jobs:
         uses: actions/cache@v3
         id: amplify-cache
         with:
-            path: /usr/local/lib/node_modules/expo
+            path: |
+              /usr/local/lib/node_modules/amplify
+              /usr/local/lib/node_modules/expo
             key: ${{ runner.os }}-amplify-${{ hashFiles('/usr/local/lib/node_modules/amplify/**', '/usr/local/lib/node_modules/expo/**') }}
             restore-keys: |
                 ${{ runner.os }}-amplify-
@@ -25,6 +27,13 @@ jobs:
         run: |
             echo "CACHE MISS"
             npm install -g expo-cli @aws-amplify/cli
+
+
+      - name: aa
+        run: ls /usr/local/lib
+      
+      - name: bb
+        run: ls /usr/local/lib/node_modules
 
       - name: test
         run: |
