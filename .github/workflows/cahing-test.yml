@@ -1,5 +1,4 @@
 name: Checkout Amplify environment
-description: Install Amplify CLI + Expo, set AWS credentials and pull Amplify environment
 
 on:
   workflow_call:
