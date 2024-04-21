@@ -29,14 +29,14 @@ jobs:
       - name: Create Amplify app
         run: amplify init --amplify "{\"projectName\":\"${{ inputs.AMPLIFY_APP_NAME }}\"}" --yes
 
-      - name: Create `prod` environment
-        run: amplify env add prod --yes
-
       - name: Get Amplify App ID
         id: get_amplify_app_id
         run: |
           url=$(cat output.txt | grep -o "Adding backend environment dev to AWS Amplify app: [[:alnum:]]*" | awk '{print $NF}')
           echo "amplify_app_id=$url" >> $GITHUB_OUTPUT
 
-      - name: ⚠️ Important ⚠️  Set AMPLIFY_APP_ID=${{ steps.get_amplify_app_id.outputs.amplify_app_id }} in the GitHub repository vars
-        run: echo see above
+      - name: ⚠️ EXPAND ME !!!  ⚠️
+        run: echo "Please set AMPLIFY_APP_ID=${{ steps.get_amplify_app_id.outputs.amplify_app_id }} in the GitHub repository vars! See docs for more info."
+
+      - name: Create `prod` environment
+        run: amplify add env prod --yes
