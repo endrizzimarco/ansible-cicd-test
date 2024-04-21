@@ -27,7 +27,7 @@ jobs:
           AWS_REGION: ${{ vars.AWS_REGION}}
 
       - name: Create Amplify app
-        run: amplify init --amplify "{\"projectName\":\"${{ inputs.AMPLIFY_APP_NAME }}\"}" --yes
+        run: amplify init --amplify "{\"projectName\":\"${{ inputs.AMPLIFY_APP_NAME }}\"}" --yes | tee output.txt
 
       - name: Get Amplify App ID
         id: get_amplify_app_id
@@ -35,8 +35,8 @@ jobs:
           url=$(cat output.txt | grep -o "Adding backend environment dev to AWS Amplify app: [[:alnum:]]*" | awk '{print $NF}')
           echo "amplify_app_id=$url" >> $GITHUB_OUTPUT
 
-      - name: ⚠️ EXPAND ME !!!  ⚠️
+      - name: ⚠️ EXPAND ME ⚠️
         run: echo "Please set AMPLIFY_APP_ID=${{ steps.get_amplify_app_id.outputs.amplify_app_id }} in the GitHub repository vars! See docs for more info."
 
       - name: Create `prod` environment
-        run: amplify add env prod --yes
+        run: amplify env add --envName prod --yes
