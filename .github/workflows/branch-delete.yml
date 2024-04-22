@@ -12,9 +12,12 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
-      contents: read
+      contents: write
     steps:
       - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Test
         run: |
           echo "ref_name ${{ github.ref_name }}"
           echo "ref ${{ github.event.ref }}"
