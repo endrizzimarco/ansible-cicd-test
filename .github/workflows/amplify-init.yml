@@ -36,7 +36,7 @@ jobs:
           echo "amplify_app_id=$url" >> $GITHUB_OUTPUT
 
       - name: ⚠️ EXPAND ME ⚠️
-        run: echo "Please set AMPLIFY_APP_ID=${{ steps.get_amplify_app_id.outputs.amplify_app_id }} in the GitHub repository vars! See docs for more info."
+        run: echo "Please set `AMPLIFY_APP_ID=${{ steps.get_amplify_app_id.outputs.amplify_app_id }}` in the GitHub repository vars! See docs for more info."
 
       - name: Create `prod` environment
         run: amplify env add --envName prod --yes
