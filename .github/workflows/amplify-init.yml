@@ -1,0 +1,42 @@
+name: Initialise Amplify application
+run-name: App initialised by @${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      AMPLIFY_APP_NAME:
+        type: string
+        required: true
+        description: The name of the new Amplify application!
+
+jobs:
+  create-amplify-app:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Amplify
+        uses: ./.github/actions/setup-amplify
+        with:
+          AWS_GHA_ROLE_ARN: ${{ vars.AWS_GHA_ROLE_ARN }}
+          AWS_REGION: ${{ vars.AWS_REGION}}
+
+      - name: Create Amplify app
+        run: amplify init --amplify "{\"projectName\":\"${{ inputs.AMPLIFY_APP_NAME }}\"}" --yes | tee output.txt
+
+      - name: Get Amplify App ID
+        id: get_amplify_app_id
+        run: |
+          url=$(cat output.txt | grep -o "Adding backend environment dev to AWS Amplify app: [[:alnum:]]*" | awk '{print $NF}')
+          echo "amplify_app_id=$url" >> $GITHUB_OUTPUT
+
+      - name: ⚠️ EXPAND ME ⚠️
+        run: echo "Please set AMPLIFY_APP_ID=${{ steps.get_amplify_app_id.outputs.amplify_app_id }} in the GitHub repository vars! See docs for more info."
+
+      - name: Create `prod` environment
+        run: amplify env add --envName prod --yes

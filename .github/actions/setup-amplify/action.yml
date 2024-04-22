@@ -1,0 +1,47 @@
+name: Setup Amplify
+description: Install Amplify CLI and set AWS credentials
+
+inputs:
+  AWS_GHA_ROLE_ARN:
+    description: The ARN of the role to assume
+    required: true
+  AWS_REGION:
+    description: The AWS region of the Amplify app
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Checked if dependencies are cached
+      uses: actions/cache@v4
+      id: amplify-cache
+      with:
+        path: |
+          /usr/local/lib/node_modules/@aws-amplify
+          /usr/local/bin/amplify
+        key: ${{ runner.os }}-amplify
+
+    - name: Installing dependencies (cache miss)
+      if: steps.amplify-cache.outputs.cache-hit != 'true'
+      run: npm install -g @aws-amplify/cli
+      shell: bash
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-region: ${{ inputs.AWS_REGION }}
+        role-to-assume: ${{ inputs.AWS_GHA_ROLE_ARN }}
+        role-session-name: GithubSession
+
+    # Amplify CLI does not support headless pull with temporary credentials when useProfile is false.
+    # See: https://github.com/aws-amplify/amplify-cli/issues/11009.
+    - name: Create temp AWS profile
+      run: |
+        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && \
+        aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && \
+        aws configure set aws_session_token $AWS_SESSION_TOKEN && \
+        aws configure set default.region $AWS_REGION
+      shell: bash

@@ -1,0 +1,21 @@
+on:
+  workflow_call:
+  push:
+    branches:
+      - master
+
+jobs:
+  reusable_workflow_job:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-west-2
+          role-to-assume: ${{ vars.AWS_GHA_ROLE_ARN }}
+          role-session-name: GithubSession
+      - name: s3 ls 
+        run: aws s3 ls
