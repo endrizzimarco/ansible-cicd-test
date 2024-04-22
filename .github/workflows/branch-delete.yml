@@ -1,0 +1,18 @@
+name: Destroy Amplify environment (auto)
+run-name: PR closed - deleting backend environment
+
+on:
+  delete:
+  pull_request:
+    types: [opened]
+  push:
+
+jobs:
+  destroy-amplify-env-auto:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout repo
+        run: echo ${{ github.ref_name }}
