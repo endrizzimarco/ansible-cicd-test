@@ -26,7 +26,7 @@ jobs:
           echo "test ${{ github.event.pull_request.head.ref }}"
 
       - name: Create report file
-        run: date +%s > ${{github.event.pull_request.head.repo.full_name}}/report.txt
+        run: date +%s > report.txt
 
       # Amplify needs local files to be committed to know which environments it can pull (it sucks, I know)
       - name: Commit Amplify local environment
