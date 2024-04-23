@@ -1,15 +1,33 @@
 {
+  "ecacdb": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-asdfgfhgj-ecacdb-0cd15-authRole",
+      "UnauthRoleArn": "arn:aws:iam::604510284556:role/amplify-asdfgfhgj-ecacdb-0cd15-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::604510284556:role/amplify-asdfgfhgj-ecacdb-0cd15-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-asdfgfhgj-ecacdb-0cd15-deployment",
+      "UnauthRoleName": "amplify-asdfgfhgj-ecacdb-0cd15-unauthRole",
+      "StackName": "amplify-asdfgfhgj-ecacdb-0cd15",
+      "StackId": "arn:aws:cloudformation:eu-west-1:604510284556:stack/amplify-asdfgfhgj-ecacdb-0cd15/f6438fc0-01a1-11ef-8b22-024c3e5112b7",
+      "AmplifyAppId": "d10vvia0ya6e04"
+    }
+  },
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-asdfgfhgj-dev-44925-authRole",
-      "UnauthRoleArn": "arn:aws:iam::604510284556:role/amplify-asdfgfhgj-dev-44925-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::604510284556:role/amplify-asdfgfhgj-dev-44925-authRole",
+      "AuthRoleName": "amplify-asdfgfhgj-ecacdb-0cd15-authRole",
+      "UnauthRoleArn": "arn:aws:iam::604510284556:role/amplify-asdfgfhgj-ecacdb-0cd15-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::604510284556:role/amplify-asdfgfhgj-ecacdb-0cd15-authRole",
       "Region": "eu-west-1",
-      "DeploymentBucketName": "amplify-asdfgfhgj-dev-44925-deployment",
-      "UnauthRoleName": "amplify-asdfgfhgj-dev-44925-unauthRole",
-      "StackName": "amplify-asdfgfhgj-dev-44925",
-      "StackId": "arn:aws:cloudformation:eu-west-1:604510284556:stack/amplify-asdfgfhgj-dev-44925/5573a760-01a1-11ef-b591-028281f2a7a1",
+      "DeploymentBucketName": "amplify-asdfgfhgj-ecacdb-0cd15-deployment",
+      "UnauthRoleName": "amplify-asdfgfhgj-ecacdb-0cd15-unauthRole",
+      "StackName": "amplify-asdfgfhgj-ecacdb-0cd15",
+      "StackId": "arn:aws:cloudformation:eu-west-1:604510284556:stack/amplify-asdfgfhgj-ecacdb-0cd15/f6438fc0-01a1-11ef-8b22-024c3e5112b7",
       "AmplifyAppId": "d10vvia0ya6e04"
+    },
+    "categories": {
+      "api": {
+        "asdfgfhgj": {}
+      }
     }
   },
   "prod": {
