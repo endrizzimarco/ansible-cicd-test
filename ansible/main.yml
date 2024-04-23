@@ -40,3 +40,5 @@
         state: absent
       with_items: "{{ dest_files.stdout_lines }}"
       when: item not in source_files.stdout_lines
+
+    # test
