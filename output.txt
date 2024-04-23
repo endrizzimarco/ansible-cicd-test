@@ -9,7 +9,7 @@
 [0m| Javascript framework: none[0m
 [0m| Source Directory Path: src[0m
 [0m| Distribution Directory Path: dist[0m
-[0m| Build Command: npm run-script build[0m
+[0m| Build Commanda: npm run-script build[0m
 [0m| Start Command: npm run-script start[0m
 
 [0mUsing default provider  awscloudformation[0m
