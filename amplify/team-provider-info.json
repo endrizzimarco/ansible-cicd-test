@@ -1,4 +1,22 @@
 {
+  "cbfcafdcbe": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-freddos-cbfcafdcbe-d8a64-authRole",
+      "UnauthRoleArn": "arn:aws:iam::604510284556:role/amplify-freddos-cbfcafdcbe-d8a64-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::604510284556:role/amplify-freddos-cbfcafdcbe-d8a64-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-freddos-cbfcafdcbe-d8a64-deployment",
+      "UnauthRoleName": "amplify-freddos-cbfcafdcbe-d8a64-unauthRole",
+      "StackName": "amplify-freddos-cbfcafdcbe-d8a64",
+      "StackId": "arn:aws:cloudformation:eu-west-1:604510284556:stack/amplify-freddos-cbfcafdcbe-d8a64/da837e90-01af-11ef-87b0-06568833dbc7",
+      "AmplifyAppId": "d8sz8y6ozhz1u"
+    },
+    "categories": {
+      "api": {
+        "freddos": {}
+      }
+    }
+  },
   "dev": {
     "awscloudformation": {
       "AuthRoleName": "amplify-freddos-dev-c3012-authRole",
