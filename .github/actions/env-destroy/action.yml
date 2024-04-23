@@ -44,6 +44,6 @@ runs:
       run: |
         git config --global user.name 'AmplifyEnvManager'
         git config --global user.email 'amplifysux@users.noreply.github.com'
-        git commit -am 'chore: destroy amplify environment `${{ inputs.AMPLIFY_NEW_ENV_NAME }}`'
+        git add . && git commit -am 'chore: destroy amplify environment `${{ inputs.AMPLIFY_ENV_NAME }`'
         git push
       shell: bash

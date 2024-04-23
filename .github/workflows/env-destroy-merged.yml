@@ -44,14 +44,6 @@ jobs:
       - name: Push to ${{ github.base_ref }}
         run: amplify push --yes
 
-      - name: Commit Amplify environment files
-        if: ${{ github.base_ref == 'prod' }}
-        run: |
-          git config --global user.name 'AmplifyEnvManager'
-          git config --global user.email 'amplifysux@users.noreply.github.com'
-          git commit -am 'chore: update amplify backend files for `${{ github.base_ref }}`'
-          git push
-
       - name: Destroy feature Amplify environment
         id: destroy_environment
         uses: ./.github/actions/env-destroy
