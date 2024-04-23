@@ -1,0 +1,28 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-freddos-dev-c3012-authRole",
+      "UnauthRoleArn": "arn:aws:iam::604510284556:role/amplify-freddos-dev-c3012-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::604510284556:role/amplify-freddos-dev-c3012-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-freddos-dev-c3012-deployment",
+      "UnauthRoleName": "amplify-freddos-dev-c3012-unauthRole",
+      "StackName": "amplify-freddos-dev-c3012",
+      "StackId": "arn:aws:cloudformation:eu-west-1:604510284556:stack/amplify-freddos-dev-c3012/7ef0f580-01af-11ef-b0c1-06587b5bb533",
+      "AmplifyAppId": "d8sz8y6ozhz1u"
+    }
+  },
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-freddos-prod-78c6e-authRole",
+      "UnauthRoleArn": "arn:aws:iam::604510284556:role/amplify-freddos-prod-78c6e-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::604510284556:role/amplify-freddos-prod-78c6e-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-freddos-prod-78c6e-deployment",
+      "UnauthRoleName": "amplify-freddos-prod-78c6e-unauthRole",
+      "StackName": "amplify-freddos-prod-78c6e",
+      "StackId": "arn:aws:cloudformation:eu-west-1:604510284556:stack/amplify-freddos-prod-78c6e/9599e490-01af-11ef-9853-0ae91e407cef",
+      "AmplifyAppId": "d8sz8y6ozhz1u"
+    }
+  }
+}
