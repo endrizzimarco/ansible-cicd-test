@@ -47,6 +47,5 @@ jobs:
         run: |
           git config --global user.name 'AmplifyEnvManager'
           git config --global user.email 'amplifysux@users.noreply.github.com'
-          git add .
-          git commit -am 'feat: create amplify app `${{ inputs.AMPLIFY_APP_NAME }}`'
-          git push  
+          git add . && git commit -am 'feat: create amplify app `${{ inputs.AMPLIFY_APP_NAME }}`' && git push
+          git checkout prod && git merge dev && git push

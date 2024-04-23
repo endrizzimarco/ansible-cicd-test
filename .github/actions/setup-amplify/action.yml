@@ -12,9 +12,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
     - name: Checked if dependencies are cached
       uses: actions/cache@v4
       id: amplify-cache
