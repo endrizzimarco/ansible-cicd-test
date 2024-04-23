@@ -34,7 +34,7 @@ jobs:
           BRANCH_NAME: ${{ github.head_ref }}
 
       - name: Pull amplify feature environment
-        run: amplify pull --appId ${{ vars.AMPLIFY_APP_ID }} --envName ${{ steps.get_feature_env_name.outputs.ENV_NAME }} --yes
+        run: amplify pull --appId ${{ vars.AMPLIFY_APP_ID }} --envName $ENV_NAME --yes
         env:
           ENV_NAME: ${{ github.base_ref == 'dev' && steps.get_feature_env_name.outputs.ENV_NAME || 'dev' }}
 
@@ -45,6 +45,7 @@ jobs:
         run: amplify push --yes
 
       - name: Commit Amplify environment files
+        if: ${{ github.base_ref == 'prod' }}
         run: |
           git config --global user.name 'AmplifyEnvManager'
           git config --global user.email 'amplifysux@users.noreply.github.com'
