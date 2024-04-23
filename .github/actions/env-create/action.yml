@@ -34,16 +34,6 @@ runs:
       run: amplify push --yes
       shell: bash
 
-    # Amplify needs local files to be committed to know which environments it can pull (it sucks, I know)
-    - name: Commit Amplify local environment
-      run: |
-        git config --global user.name 'AmplifyEnvManager'
-        git config --global user.email 'amplifysux@users.noreply.github.com'
-        git add .
-        git commit -am 'chore: new amplify environment `${{ inputs.AMPLIFY_NEW_ENV_NAME }}`'
-        git push
-      shell: bash
-
     - name: Update PR with Amplify environment details
       uses: actions/github-script@v7
       if: ${{ inputs.PR_COMMENT == 'true' }}
