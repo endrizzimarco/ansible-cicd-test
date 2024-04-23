@@ -1,0 +1,43 @@
+name: Create new Amplify environment (manual)
+run-name: Create backend environment `${{ inputs.AMPLIFY_NEW_ENV_NAME }}`
+
+on:
+  workflow_dispatch:
+    inputs:
+      AMPLIFY_BASE_ENV_NAME:
+        type: choice
+        required: true
+        description: The name of the Amplify environment to base the new environment on
+        options:
+          - dev
+          - prod
+      AMPLIFY_NEW_ENV_NAME:
+        type: string
+        required: false
+        description: The name of the new Amplify environment to create
+
+jobs:
+  create-amplify-env-manual:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Amplify
+        uses: ./.github/actions/setup-amplify
+        with:
+          AWS_GHA_ROLE_ARN: ${{ vars.AWS_GHA_ROLE_ARN }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+
+      - name: Create Amplify environment
+        uses: ./.github/actions/env-create
+        with:
+          AMPLIFY_APP_ID: ${{ vars.AMPLIFY_APP_ID }}
+          AMPLIFY_BASE_ENV_NAME: ${{ inputs.AMPLIFY_BASE_ENV_NAME }}
+          AMPLIFY_NEW_ENV_NAME: ${{ inputs.AMPLIFY_NEW_ENV_NAME }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_COMMENT: false

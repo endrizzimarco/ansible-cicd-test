@@ -1,0 +1,29 @@
+name: Destroy Amplify environment (manual)
+run-name: Destroying backend environment `${{ inputs.AMPLIFY_ENV_NAME }}`
+
+on:
+  workflow_dispatch:
+    inputs:
+      AMPLIFY_ENV_NAME:
+        type: string
+        required: false
+        description: The name of the Amplify environment to destroy
+
+jobs:
+  destroy-amplify-env-manual:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Destroy Amplify environment
+        id: destroy_environment
+        uses: ./.github/actions/env-destroy
+        with:
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          AMPLIFY_APP_ID: ${{ vars.AMPLIFY_APP_ID }}
+          AWS_GHA_ROLE_ARN: ${{ vars.AWS_GHA_ROLE_ARN }}
+          AMPLIFY_ENV_NAME: ${{ inputs.AMPLIFY_ENV_NAME }}

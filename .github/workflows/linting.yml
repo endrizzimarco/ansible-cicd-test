@@ -1,0 +1,43 @@
+name: Runs All Unit tests, Prettier and ESLint
+
+on:
+  # pull_request:
+  # push:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci-checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: 'Use Node.js ${{ matrix.node-version }}'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: 'Install Dependencies'
+        run: npm ci
+
+      - name: 'Check formatting with Prettier'
+        run: npm run prettier:check:ci
+
+      - name: 'Run ESLint'
+        run: npm run lint
+
+      - name: 'Run Typescript checks'
+        run: npm run ts:check
+
+      - name: 'Run Unit Tests'
+        run: npm run test

@@ -1,0 +1,37 @@
+name: Destroy Amplify environment (auto)
+run-name: PR closed - deleting backend environment
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [dev, prod]
+
+jobs:
+  destroy-amplify-env-auto:
+    if: (github.event_name == 'pull_request') && (github.event.action == 'closed') && (github.event.pull_request.merged == false)
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - name: Setup Amplify CLI
+        uses: ./.github/actions/setup-amplify
+        with:
+          AWS_GHA_ROLE_ARN: ${{ vars.AWS_GHA_ROLE_ARN }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+
+      # Because of an Amplify limitation, environment names can only be 10 lowercase letters long
+      - name: Get new Amplify environment name
+        id: get_feature_env_name
+        run: echo "ENV_NAME=$(echo $BRANCH_NAME | md5sum | tr -cd '[:alpha:]' | cut -c 1-10)" >> $GITHUB_OUTPUT
+        env:
+          BRANCH_NAME: ${{ github.head_ref }}
+
+      - name: Destroy feature Amplify environment
+        id: destroy_environment
+        uses: ./.github/actions/env-destroy
+        with:
+          with:
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          AMPLIFY_APP_ID: ${{ vars.AMPLIFY_APP_ID }}
+          AWS_GHA_ROLE_ARN: ${{ vars.AWS_GHA_ROLE_ARN }}
+          AMPLIFY_ENV_NAME: ${{ steps.get_feature_env_name.outputs.ENV_NAME }}

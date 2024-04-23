@@ -1,0 +1,62 @@
+name: Destroy and Merge Amplify environment (auto)
+run-name: PR merged - deleting backend environment and merging to `dev`
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [dev, prod]
+
+jobs:
+  destroy-amplify-env-auto:
+    if: (github.event_name == 'pull_request') && (github.event.action == 'closed') && (github.event.pull_request.merged == true)
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.base_ref }}
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Setup Amplify CLI
+        uses: ./.github/actions/setup-amplify
+        with:
+          AWS_GHA_ROLE_ARN: ${{ vars.AWS_GHA_ROLE_ARN }}
+          AWS_REGION: ${{ vars.AWS_REGION }}
+
+      # Because of an Amplify limitation, environment names can only be 10 lowercase letters long
+      - name: Get new Amplify environment name
+        id: get_feature_env_name
+        run: echo "ENV_NAME=$(echo $BRANCH_NAME | md5sum | tr -cd '[:alpha:]' | cut -c 1-10)" >> $GITHUB_OUTPUT
+        env:
+          BRANCH_NAME: ${{ github.head_ref }}
+
+      - name: Pull amplify feature environment
+        run: amplify pull --appId ${{ vars.AMPLIFY_APP_ID }} --envName ${{ steps.get_feature_env_name.outputs.ENV_NAME }} --yes
+        env:
+          ENV_NAME: ${{ github.base_ref == 'dev' && steps.get_feature_env_name.outputs.ENV_NAME || 'dev' }}
+
+      - name: Checkout to ${{ github.base_ref }}
+        run: amplify env checkout ${{ github.base_ref }}
+
+      - name: Push to ${{ github.base_ref }}
+        run: amplify push --yes
+
+      - name: Commit Amplify environment files
+        run: |
+          git config --global user.name 'AmplifyEnvManager'
+          git config --global user.email 'amplifysux@users.noreply.github.com'
+          git commit -am 'chore: update amplify backend files for `${{ github.base_ref }}`'
+          git push
+
+      - name: Destroy feature Amplify environment
+        id: destroy_environment
+        uses: ./.github/actions/env-destroy
+        with:
+          with:
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          AMPLIFY_APP_ID: ${{ vars.AMPLIFY_APP_ID }}
+          AWS_GHA_ROLE_ARN: ${{ vars.AWS_GHA_ROLE_ARN }}
+          AMPLIFY_ENV_NAME: ${{ steps.get_feature_env_name.outputs.ENV_NAME }}
