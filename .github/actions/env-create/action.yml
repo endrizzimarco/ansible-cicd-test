@@ -1,0 +1,69 @@
+name: Create an Amplify Environment
+description: Creates an Amplify environment based on an existing environment
+
+inputs:
+  AMPLIFY_APP_ID:
+    required: true
+    description: The Amplify app ID
+  AMPLIFY_BASE_ENV_NAME:
+    required: true
+    description: The name of the Amplify environment to base the new environment on
+  AMPLIFY_NEW_ENV_NAME:
+    required: false
+    description: The name of the new Amplify environment
+  GITHUB_TOKEN:
+    required: true
+    description: The GitHub token
+  PR_COMMENT:
+    required: true
+    default: 'false'
+    description: Whether to comment on the PR
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Pull Amplify `${{ inputs.AMPLIFY_BASE_ENV_NAME }}` environment
+      run: amplify pull --yes --debug --appId ${{ inputs.AMPLIFY_APP_ID }} --envName ${{ inputs.AMPLIFY_BASE_ENV_NAME }}
+      shell: bash
+
+    - name: Create new Amplify environment
+      run: amplify env add --yes --envName ${{ inputs.AMPLIFY_NEW_ENV_NAME }}
+      shell: bash
+
+    - name: Push new Amplify environment
+      run: amplify push --yes
+      shell: bash
+
+    # Amplify needs local files to be committed to know which environments it can pull (it sucks, I know)
+    - name: Commit Amplify local environment
+      run: |
+        git config --global user.name 'AmplifyEnvManager'
+        git config --global user.email 'amplifysux@users.noreply.github.com'
+        git commit -am 'chore: new amplify environment `${{ inputs.AMPLIFY_NEW_ENV_NAME }}`'
+        git push
+      shell: bash
+
+    - name: Update PR with Amplify environment details
+      uses: actions/github-script@v7
+      if: ${{ inputs.PR_COMMENT == 'true' }}
+      with:
+        script: |
+          const output = ` ### :rocket: Amplify Backend deployed
+
+          Feature environment name: \`${{ inputs.AMPLIFY_NEW_ENV_NAME }}\`
+
+          To pull your new environment locally, \`git pull\` remote changes for your branch, then run:
+          \`\`\`
+          amplify pull --appId ${{ inputs.AMPLIFY_APP_ID }} --envName ${{ inputs.AMPLIFY_NEW_ENV_NAME }}
+          \`\`\`
+
+          *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
+      env:
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}

@@ -1,0 +1,49 @@
+name: Destroy Amplify environment
+description: Deletes an Amplify backend environment from AWS
+
+inputs:
+  AMPLIFY_APP_ID:
+    required: true
+    description: The Amplify App ID the environment belongs to
+  AWS_REGION:
+    required: true
+    description: The AWS region of the Amplify app
+  AWS_GHA_ROLE_ARN:
+    required: true
+    description: The ARN of the role to assume
+  AMPLIFY_ENV_NAME:
+    required: true
+    description: The name of the Amplify environment to destroy
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-region: ${{ inputs.AWS_REGION }}
+        role-to-assume: ${{ inputs.AWS_GHA_ROLE_ARN }}
+        role-session-name: GithubSession
+
+    - name: Delete Amplify feature environment
+      id: delete_amplify_env
+      shell: bash
+      run: |
+        echo "STACK_NAME=$(aws amplify delete-backend-environment \
+        --app-id ${{ inputs.AMPLIFY_APP_ID }} \
+        --environment-name ${{ inputs.AMPLIFY_ENV_NAME }} \
+        --query 'backendEnvironment.stackName' --output text)" >> $GITHUB_OUTPUT
+
+    # Deleting the BE env in non-interactive way does not delete the stack and resources
+    - name: Delete CloudFormation stack
+      shell: bash
+      run: aws cloudformation delete-stack --stack-name ${{ steps.delete_amplify_env.outputs.STACK_NAME }}
+
+    # Remove the local environment from the Amplify app
+    - name: Commit Amplify local environment
+      run: |
+        git config --global user.name 'AmplifyEnvManager'
+        git config --global user.email 'amplifysux@users.noreply.github.com'
+        git commit -am 'chore: destroy amplify environment `${{ inputs.AMPLIFY_NEW_ENV_NAME }}`'
+        git push
+      shell: bash
