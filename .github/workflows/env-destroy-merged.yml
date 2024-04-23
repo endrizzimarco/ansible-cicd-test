@@ -39,7 +39,7 @@ jobs:
           ENV_NAME: ${{ github.base_ref == 'dev' && steps.get_feature_env_name.outputs.ENV_NAME || 'dev' }}
 
       - name: Checkout to ${{ github.base_ref }}
-        run: amplify env checkout ${{ github.base_ref }}
+        run: amplify env checkout ${{ github.base_ref }} --yes
 
       - name: Push to ${{ github.base_ref }}
         run: amplify push --yes
