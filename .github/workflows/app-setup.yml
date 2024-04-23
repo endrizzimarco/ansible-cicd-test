@@ -35,8 +35,10 @@ jobs:
           url=$(cat output.txt | grep -o "Adding backend environment dev to AWS Amplify app: [[:alnum:]]*" | awk '{print $NF}')
           echo "amplify_app_id=$url" >> $GITHUB_OUTPUT
 
-      - name: ⚠️ EXPAND ME ⚠️
-        run: echo "Please set `AMPLIFY_APP_ID=${{ steps.get_amplify_app_id.outputs.amplify_app_id }}` in the GitHub repository vars! See docs for more info."
+      - name: Set Amplify App ID as GitHub repo variable
+        run: gh variable set AMPLIFY_APP_ID --body ${{ steps.get_amplify_app_id.outputs.amplify_app_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
 
       - name: Create `prod` environment
         run: amplify env add --envName prod --yes
@@ -45,5 +47,6 @@ jobs:
         run: |
           git config --global user.name 'AmplifyEnvManager'
           git config --global user.email 'amplifysux@users.noreply.github.com'
+          git add .
           git commit -am 'feat: create amplify app `${{ inputs.AMPLIFY_APP_NAME }}`'
           git push  
