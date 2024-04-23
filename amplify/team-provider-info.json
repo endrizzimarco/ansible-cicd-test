@@ -1,0 +1,28 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-letsgo-dev-0add5-authRole",
+      "UnauthRoleArn": "arn:aws:iam::604510284556:role/amplify-letsgo-dev-0add5-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::604510284556:role/amplify-letsgo-dev-0add5-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-letsgo-dev-0add5-deployment",
+      "UnauthRoleName": "amplify-letsgo-dev-0add5-unauthRole",
+      "StackName": "amplify-letsgo-dev-0add5",
+      "StackId": "arn:aws:cloudformation:eu-west-1:604510284556:stack/amplify-letsgo-dev-0add5/95b69bb0-01ac-11ef-9e00-0aecaf576bad",
+      "AmplifyAppId": "d1ectq15ao1x2g"
+    }
+  },
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-letsgo-prod-5b244-authRole",
+      "UnauthRoleArn": "arn:aws:iam::604510284556:role/amplify-letsgo-prod-5b244-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::604510284556:role/amplify-letsgo-prod-5b244-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-letsgo-prod-5b244-deployment",
+      "UnauthRoleName": "amplify-letsgo-prod-5b244-unauthRole",
+      "StackName": "amplify-letsgo-prod-5b244",
+      "StackId": "arn:aws:cloudformation:eu-west-1:604510284556:stack/amplify-letsgo-prod-5b244/ad5ed250-01ac-11ef-a4f8-020da2319e5d",
+      "AmplifyAppId": "d1ectq15ao1x2g"
+    }
+  }
+}
